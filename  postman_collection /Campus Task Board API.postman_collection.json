@@ -1,0 +1,76 @@
+{
+  "info": {
+    "_postman_id": "549710ae-0abf-4eba-acd0-080c9e4b3e35",
+    "name": "Campus Task Board API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "53208558",
+    "_collection_link": "https://go.postman.co/collection/53208558-549710ae-0abf-4eba-acd0-080c9e4b3e35?source=collection_link"
+  },
+  "item": [
+    {
+      "name": "Get All Tasks",
+      "request": {
+        "method": "DELETE",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"title\": \"AB\",\n  \"description\": \"This description is way too long and exceeds the maximum allowed length of 500 characters. \" + \n                  \"Lorem ipsum dolor sit amet, consectetur adipiscing elit. \" +\n                  \"Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. \" +\n                  \"Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris. \" +\n                  \"Duis aute irure dolor in reprehenderit in voluptate velit esse cillum. \" +\n                  \"Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia.\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "http://localhost:8080/api/tasks",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8080",
+          "path": [
+            "api",
+            "tasks"
+          ]
+        }
+      },
+      "response": []
+    }
+  ],
+  "event": [
+    {
+      "listen": "prerequest",
+      "script": {
+        "type": "text/javascript",
+        "packages": {},
+        "requests": {},
+        "exec": [
+          ""
+        ]
+      }
+    },
+    {
+      "listen": "test",
+      "script": {
+        "type": "text/javascript",
+        "packages": {},
+        "requests": {},
+        "exec": [
+          ""
+        ]
+      }
+    }
+  ],
+  "variable": [
+    {
+      "key": "base_url",
+      "value": ""
+    }
+  ]
+}
