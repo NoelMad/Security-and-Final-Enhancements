@@ -1,5 +1,8 @@
 # Security-and-Final-Enhancements
+
 # Creating My First Spring Boot API with Validation & Database Persistence (Spring Boot + JPA) & Security and Final Enhancements
+
+---
 
 ## Project Description
 
@@ -9,9 +12,25 @@ This project demonstrates how to build a structured backend using controllers, s
 
 The application follows a layered architecture:
 
-- Controller: Handles HTTP requests
-- Service: Contains business logic
-- Model: Represents task data
+* Controller: Handles HTTP requests
+* Service: Contains business logic
+* Model: Represents task data
+
+---
+
+## Technologies Used
+
+* Java 17
+* Spring Boot 3.x
+* Spring Data JPA
+* H2 Database
+* Spring Validation
+* Spring Security
+* Spring Boot Actuator
+* Lombok
+* Maven
+* Postman (API testing)
+* Swagger / OpenAPI (API documentation)
 
 ---
 
@@ -19,152 +38,150 @@ The application follows a layered architecture:
 
 ### Option 1: Using an IDE
 
-- Open the project in IntelliJ IDEA or VS Code  
-- Locate `CampusTaskboardApplication.java`  
-- Right-click and click Run  
-- The server will start at: http://localhost:8080  
+* Open the project in IntelliJ IDEA or VS Code
+* Locate `CampusTaskboardApplication.java`
+* Right-click and click Run
+* Server runs at: http://localhost:8080
 
 ---
 
 ### Option 2: Using Terminal
 
-- Open a terminal in the project folder  
-- Run:
-
+```
+./mvnw spring-boot:run
 ```
 
-./mvnw spring-boot:run
-
-````
-
-- Open in browser or Postman:  
-http://localhost:8080/api/tasks  
-
----
-
-## API Endpoints Documentation
-
-### Testing the API
-
-The API was tested using Postman.
-
-Each endpoint (GET, POST, PUT, DELETE) was tested using:
+Then open:
 http://localhost:8080/api/tasks
 
-Headers used:
-Content-Type: application/json
+---
+
+## API Documentation
+
+### Base URL
+
+http://localhost:8080/api/tasks
 
 ---
 
-### GET all tasks
-GET /api/tasks  
-Returns a list of all tasks
+### Get All Tasks
+
+**GET /api/tasks**
+
+#### Response
+
+```json
+[
+  {
+    "id": 1,
+    "title": "Complete Homework 5",
+    "completed": false,
+    "priority": "HIGH"
+  }
+]
+```
 
 ---
 
-### GET task by ID
-GET /api/tasks/{id}  
-Returns a single task by ID
+### Get Task by ID
+
+**GET /api/tasks/{id}**
 
 ---
 
-### POST create task
-POST /api/tasks  
-Creates a new task
+### Create Task
 
-Example JSON:
+**POST /api/tasks**
 
+#### Request Body
+
+```json
 {
   "title": "Complete Homework 5",
   "description": "Finish Spring Boot API assignment",
   "completed": false,
   "priority": "HIGH"
 }
+```
+
+#### Response
+
+```json
+{
+  "id": 1,
+  "title": "Complete Homework 5",
+  "description": "Finish Spring Boot API assignment",
+  "completed": false,
+  "priority": "HIGH"
+}
+```
 
 ---
 
-### PUT update task
-PUT /api/tasks/{id}  
-Updates an existing task
+### Update Task
 
-Example JSON:
+**PUT /api/tasks/{id}**
 
+#### Request Body
+
+```json
 {
   "title": "Updated Task",
   "description": "Updated description",
   "completed": true,
   "priority": "HIGH"
 }
+```
 
 ---
 
-### DELETE task
-DELETE /api/tasks/{id}  
-Deletes a task
+### Delete Task
+
+**DELETE /api/tasks/{id}**
 
 ---
 
 ## Validation
 
-The API validates input using Spring Validation:
+* Title must be between 3 and 100 characters
+* Title cannot be empty
+* Description cannot exceed 500 characters
 
-- Title must be between 3 and 100 characters  
-- Title cannot be empty  
-- Description cannot exceed 500 characters  
+Returns:
 
-If invalid data is submitted, the API returns:
-400 Bad Request with error messages
-
----
-
-## 🚀 Database Persistence (Spring Data JPA + H2)
-
-This project uses Spring Data JPA with an H2 in-memory database. Tasks are stored in a database instead of memory.
+* 400 Bad Request for invalid input
 
 ---
 
-### New Features Added
+## Database Persistence (Spring Data JPA + H2)
 
-- Database persistence using JPA  
-- H2 database integration  
-- Repository layer for data access  
-- Search functionality  
-- Pagination and sorting  
-- Filtering by completion and priority  
+* Uses H2 in-memory database
+* Data stored using JPA
+* Repository layer handles queries
 
 ---
 
-### Database Configuration
+## Database Configuration
 
-The application uses the H2 in-memory database.
+H2 Console:
+http://localhost:8080/h2-console
 
-#### H2 Console
-http://localhost:8080/h2-console  
-
-#### Connection Settings
-
-- JDBC URL: jdbc:h2:mem:taskboarddb  
-- Username: sa  
-- Password: (empty)  
+* JDBC URL: jdbc:h2:mem:taskboarddb
+* Username: sa
+* Password: (empty)
 
 ---
 
 ## JPA & Repository
 
-- @Entity maps Task class to database  
-- JpaRepository handles CRUD operations automatically  
-- Custom query methods allow filtering and searching  
-
-Example:
-
 ```java
 List<Task> findByCompletedTrue();
 List<Task> findByPriority(Task.Priority priority);
-````
+```
 
 ---
 
-## New API Endpoints (Homework 6)
+## New API Endpoints
 
 * GET /api/tasks/completed
 * GET /api/tasks/incomplete
@@ -176,19 +193,15 @@ List<Task> findByPriority(Task.Priority priority);
 
 ## Database Testing
 
-Tasks created via POST are saved in the database.
-
-Verified using H2 Console:
-
 ```sql
 SELECT * FROM tasks;
 ```
 
 ---
 
-## Exception Handling
+## Error Handling & Responses
 
-Implemented using:
+Uses:
 
 @RestControllerAdvice
 
@@ -197,39 +210,37 @@ Implemented using:
 * TaskNotFoundException
 * InvalidTaskDataException
 
----
+### Example Error Response
 
-## Error Response Example
-
+```json
 {
-"timestamp": "...",
-"status": 404,
-"error": "Not Found",
-"message": "Task not found",
-"path": "/api/tasks/1"
+  "timestamp": "2026-04-20T12:00:00",
+  "status": 404,
+  "error": "Not Found",
+  "message": "Task not found",
+  "path": "/api/tasks/1"
 }
+```
 
 ---
 
 ## DTOs
 
-* TaskRequest: Used for incoming data
-* TaskResponse: Used for outgoing responses
+* TaskRequest
+* TaskResponse
 
 ---
 
 ## Soft Delete
 
-Instead of deleting permanently:
-
 * Tasks are marked as deleted = true
-* Data can be restored later
+* Data is not permanently removed
 
 ---
 
 ## Logging
 
-Each request is logged:
+Example:
 
 GET /api/tasks - Status: 200 - Duration: 12ms
 
@@ -238,171 +249,98 @@ GET /api/tasks - Status: 200 - Duration: 12ms
 ## Actuator
 
 Health Check:
-[http://localhost:8080/actuator/health](http://localhost:8080/actuator/health)
+http://localhost:8080/actuator/health
 
-Response:
-
+```json
 {
-"status": "UP"
+  "status": "UP"
 }
+```
 
----
-
-Got you — you don’t need a whole new section, you just need to **extend your existing README cleanly** so it flows with what you already wrote.
-
-Here’s exactly what to **append to your current README (right after your existing “Demo Videos” or before the final section)** 👇
-
----
-
-```markdown
 ---
 
 ## Security and Final Enhancements
 
-### Overview
+### Features
 
-In this final stage, the API was enhanced with security, versioning, testing, and documentation features to make it closer to a production-ready backend system.
+* Spring Security configuration
+* CORS enabled
+* CSRF disabled
+* Public endpoints:
 
----
-
-### Spring Security Configuration
-
-Spring Security was added to configure and protect the API.
-
-#### Features:
-
-- CORS enabled for frontend communication  
-- CSRF disabled for REST API usage  
-- Public access to:
-  - `/api/tasks/**`
-  - `/h2-console/**`
-  - `/actuator/**`
-- All other endpoints require authentication (future-ready setup)
-
-#### Security File:
-```
-
-config/SecurityConfig.java
-
-```
-
----
-
-### CORS Configuration
-
-CORS allows cross-origin requests from:
-
-- http://localhost:3000  
-- http://localhost:8080  
-
-This enables frontend applications to communicate with the backend.
+  * /api/tasks/**
+  * /h2-console/**
+  * /actuator/**
 
 ---
 
 ### API Versioning
 
-A versioned API endpoint was introduced:
-
 ```
-
 /api/v1/tasks
-
 ```
-
-#### Benefits:
-
-- Prevents breaking changes  
-- Supports future updates  
-- Improves API maintainability  
 
 ---
 
 ### Integration Testing
 
-Integration tests were added to ensure endpoints function correctly.
-
-#### Test Cases:
-
-- Create task (POST)  
-- Get task by ID (GET)  
-- Handle errors (404 Not Found)  
-
-#### Test File:
-```
-
-test/TaskControllerIntegrationTest.java
-
-```
+* POST create task
+* GET task by ID
+* 404 error handling
 
 ---
 
-### API Documentation (Swagger)
+### Swagger Documentation
 
-Swagger UI was added using SpringDoc OpenAPI.
-
-#### Access:
-http://localhost:8080/swagger-ui.html  
-
-#### Features:
-
-- View all endpoints  
-- Test API in browser  
-- See request/response formats  
+http://localhost:8080/swagger-ui.html
 
 ---
 
-### ✅ Validation Enhancement
+### Validation Enhancement
 
-Custom annotation added:
-
-```
-
+```java
 @ValidPriority
-
 ```
 
-Ensures only valid values are accepted:
+Values:
 
-- LOW  
-- MEDIUM  
-- HIGH  
-
----
----
-
-### Feature Breakdown
-
-#### Database Integration
-
-
-#### Advanced Features (Search, Pagination, Filtering)
-
+* LOW
+* MEDIUM
+* HIGH
 
 ---
 
-## 🏁 Final Outcome
+## Feature Breakdown
 
-By completing this project, the API now includes:
+### Database Integration
 
-- Secure configuration (Spring Security)
-- Database persistence (JPA + H2)
-- Validation and exception handling
-- Integration testing
-- API documentation (Swagger)
-- Versioned endpoints
+* Uses H2 database
+* JPA for persistence
 
-This represents a complete backend system built with Spring Boot.
-```
+### Advanced Features
+
+* Search
+* Pagination
+* Filtering
+
+---
+
+## Final Outcome
+
+This API includes:
+
+* Security (Spring Security)
+* Database (JPA + H2)
+* Validation & error handling
+* Integration testing
+* Swagger documentation
+* Versioned endpoints
 
 ---
 
 ## Demo Videos
 
-* TaskBoard Application: [https://www.youtube.com/watch?v=mo7y3R6u-RQ](https://www.youtube.com/watch?v=mo7y3R6u-RQ)
-* Adding Database: [https://youtu.be/6tCTppEGuNE](https://youtu.be/6tCTppEGuNE)
-* Advanced Features: [https://youtu.be/bD4J26PvFlo](https://youtu.be/bD4J26PvFlo)
-* Security + Final Features (implmenting soon)
-
-
----
-
+* TaskBoard: https://www.youtube.com/watch?v=mo7y3R6u-RQ
+* Database: https://youtu.be/6tCTppEGuNE
+* Advanced Features: https://youtu.be/bD4J26PvFlo
+* Security: (coming soon)
