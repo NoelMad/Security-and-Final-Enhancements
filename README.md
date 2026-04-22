@@ -343,4 +343,4 @@ This API includes:
 * TaskBoard: https://www.youtube.com/watch?v=mo7y3R6u-RQ
 * Database: https://youtu.be/6tCTppEGuNE
 * Advanced Features: https://youtu.be/bD4J26PvFlo
-* Security: (coming soon)
+* Security: (https://youtu.be/6gXVqohSOCQ)
